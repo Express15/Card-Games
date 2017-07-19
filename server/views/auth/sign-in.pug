@@ -1,0 +1,8 @@
+extends ../_shared/_master
+
+block content
+    form(action='/auth/sign-in', method="POST")
+        input.form-control(type="text" name="username" placeholder="Username")
+        input.form-control(type="password" name="password" placeholder="Password")
+        button.btn.btn-success
+            | Sign In

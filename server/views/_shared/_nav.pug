@@ -1,0 +1,40 @@
+mixin nav()
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
+    nav.navbar.navbar-light(style="background-color: #e3f2fd;")
+        div.container-fluid
+            ul.nav.navbar-nav
+                li.active
+                    a(href="/")
+                        | Home
+                li
+                    a(href="/games/all")
+                        | Games
+                li
+                    a(href="/about")
+                        | About
+                li
+                    a(href="/statistics")
+                        | Statistics               
+                li
+                    a(href="/tournaments")
+                        | Tournaments
+            ul.nav.navbar-nav.navbar-right
+                if user
+                    li
+                        a(href="auth/user")
+                            span.glyphicon.glyphicon-user
+                                |  Profile
+                    li
+                        a(href="auth/sign-out")
+                            span.glyphicon.glyphicon-log-out
+                                |  Sign-out
+                else
+                    li
+                        a(href="auth/sign-up")
+                            span.glyphicon.glyphicon-user
+                                |  Sign-up
+                    li
+                        a(href="auth/sign-in")
+                            span.glyphicon.glyphicon-log-in
+                                |  Sign-in

@@ -1,0 +1,8 @@
+extends ../_shared/_master
+
+block content
+    p List of games and pictures -- To Do
+    ul
+        each game in context
+            li
+                a(href="game/"+game.id) #{game.name}, #{game.id}              
