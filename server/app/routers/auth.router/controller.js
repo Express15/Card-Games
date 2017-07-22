@@ -19,15 +19,15 @@ class UserController {
 
     signUp(req, res) {
         const bodyUser = req.body;
-      
-        //    .then((dbUser) => {
-        const dbUser = this.data.users.findByUsername(bodyUser.username);
-        if (dbUser) {
-            throw new Error('User already exists');
-        }
 
-        return Promise.resolve(this.data.users.createUser(bodyUser))
-            //    })
+        this.data.users.findByUsername(bodyUser.username)
+            .then((dbUser) => {
+                if (dbUser) {
+                    throw new Error('User already exists');
+                }
+
+                return this.data.users.createUser(bodyUser)
+            })
             .then((dbUser) => {
                 return res.redirect('/auth/sign-in'); //???
             })

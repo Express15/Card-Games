@@ -5,12 +5,13 @@ const attachTo = (app, data) => {
     const controller = require('./controller').init(data);
 
     router
-        .get('/all', (req, res) => {
+        .get('/', (req, res) => { // pages
             return controller.getAll(req,res);
         })
-        .get('/game/:gameId', (req, res) => {
+        .get('/:gameId', (req, res) => { // ??
             return controller.getGame(req,res);
         });
+        //search
 
     app.use('/games', router);
 };

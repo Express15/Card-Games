@@ -4,13 +4,13 @@ class GameController {
     }
 
     getAll(req, res) {
-        //   return this.data.games.getAll()
-        //      .then((games) => {
-        const games = this.data.games.getAll();
-        return res.render('games/all', {
-            context: games,
-        });
-        //      });
+        return this.data.games.getAll()
+            .then((games) => {
+
+                return res.render('games/all', {
+                    context: games,
+                });
+            });
     }
     getGame(req, res) {
         const { gameId } = req.params
@@ -18,7 +18,7 @@ class GameController {
         //       .then((game) => {
         const game = this.data.games.getGame(gameId);
         return res.render('games/game', {
-            id: game.id,
+            id: game.gameId,
             name: game.name
         });
         //       });

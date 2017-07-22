@@ -1,5 +1,3 @@
-//just copied!!!
-
 const { Router } = require('express');
 const passport = require('passport');
 
@@ -12,14 +10,12 @@ const attachTo = (app, data) => {
             return controller.getSignUpForm(req, res);
         })
         .get('/sign-in', (req, res) => {
-            return controller.getSignInForm(req, res); 
+            return controller.getSignInForm(req, res);
         })
         .get('/user', (req, res) => {
             return controller.getUserProfile(req, res);
         })
-        .post('/sign-out', (req, res) => {
-            return controller.signOut(req, res); //get???
-        })
+
         .post('/sign-up', (req, res) => {
             return controller.signUp(req, res);
         })
@@ -27,9 +23,12 @@ const attachTo = (app, data) => {
             successRedirect: '/',
             failureRedirect: '/auth/sign-in',
             failureFlash: true,
-        }));
+        }))
+        .post('/sign-out', (req, res) => {
+            return controller.signOut(req, res);
+        });
 
-    app.use('/auth', router);// something is wrong???
+    app.use('/auth', router);
 };
 
 module.exports = { attachTo };

@@ -1,1 +1,1 @@
-module.exports = require('./auth');
+module.exports = require('./config');

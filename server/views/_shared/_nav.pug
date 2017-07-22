@@ -8,7 +8,7 @@ mixin nav()
                     a(href="/")
                         | Home
                 li
-                    a(href="/games/all")
+                    a(href="/games")
                         | Games
                 li
                     a(href="/about")
@@ -17,24 +17,28 @@ mixin nav()
                     a(href="/statistics")
                         | Statistics               
                 li
-                    a(href="/tournaments")
+                    a(href="/")
                         | Tournaments
             ul.nav.navbar-nav.navbar-right
                 if user
                     li
-                        a(href="auth/user")
-                            span.glyphicon.glyphicon-user
-                                |  Profile
+                        form(action="/auth/user" method="get")
+                            button.nav-btn
+                                span.glyphicon.glyphicon-user
+                                    |  Profile
                     li
-                        a(href="auth/sign-out")
-                            span.glyphicon.glyphicon-log-out
-                                |  Sign-out
+                        form(action="/auth/sign-out" method="post")
+                            button.nav-btn
+                                span.glyphicon.glyphicon-log-out
+                                    |  Sign-out
                 else
                     li
-                        a(href="auth/sign-up")
-                            span.glyphicon.glyphicon-user
-                                |  Sign-up
+                        form(action="auth/sign-up" method="get")
+                            button.nav-btn
+                                span.glyphicon.glyphicon-user
+                                    |  Sign-up
                     li
-                        a(href="auth/sign-in")
-                            span.glyphicon.glyphicon-log-in
-                                |  Sign-in
+                        form(action="auth/sign-in" method="get")
+                            button.nav-btn
+                                span.glyphicon.glyphicon-log-in
+                                    |  Sign-in

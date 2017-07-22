@@ -2,32 +2,28 @@
 
 const session = require('express-session');
 const passport = require('passport');
-const { Strategy } = require('passport-local');
+const Strategy = require('passport-local');
 const MongoStore = require('connect-mongo')(session);
+const config = require('../../config');
 
-const config = require('../config');
+const applyTo = (app, data) => {
+    const strategy = new Strategy((username, password, done) => {
+        data.users.checkPassword(username, password)
+            .then((user) => {
+                done(null, user);
+            })
+            .catch((err) => {
+                done(err);
+            });
+    });
 
-const applyTo = (app, data) => {    
-   passport.use(new Strategy((username, password, done) => {
-       data.users.checkPassword(username, password)
-           .then(() => {
-               return data.users.findByUsername(username);
-           })
-           .then((user) => {
-               done(null, user);
-           })
-           .catch((err) => {
-               done(err);
-           });
-   }));
-
+    passport.use(strategy);
     app.use(session({
         store: new MongoStore({ url: config.connectionString }),
         secret: config.sessionSecret,
         resave: true,
         saveUninitialized: true,
     }));
-
     app.use(passport.initialize());
     app.use(passport.session());
 
