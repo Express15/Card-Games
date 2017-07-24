@@ -1,5 +1,6 @@
 const User = require('../models/user.model');
 const { ObjectID } = require('mongodb');
+const userValidator = require('./validator');
 
 class UsersData {
     constructor(db) {
@@ -31,13 +32,27 @@ class UsersData {
     }
 
     createUser(user) {
-        let newUser = new User({
-            username: user.username,
-            eMail: user.email,
-            password: user.password
-        });
+        return userValidator.validate(user)
+            .then(() => {
+                return new Promise((resolve) => {
+                    let newUser = new User({
+                        username: user.username,
+                        eMail: user.email,
+                        password: user.password,
+                    });
+                    resolve(newUser);
+                });
+            })
+            .then((newUser) => {
+                return this.collection.insert(newUser);
+            });
+        // let newUser = new User({
+        //     username: user.username,
+        //     eMail: user.email,
+        //     password: user.password
+        // });
 
-        return Promise.resolve(this.collection.insert(newUser));
+        // return Promise.resolve(this.collection.insert(newUser));
         //     if (user.password !== user.confirm) // fix confirm-password named
         //         this.collection.push(user);
         //    return user;
