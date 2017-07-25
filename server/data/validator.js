@@ -45,6 +45,7 @@ function validateDateType(input) {
 }
 
 function validateRegexMatch(input, regex) {
+    console.log('input = ' + input);
     if (!input.match(regex)) {
         return false;
     }
@@ -103,7 +104,7 @@ function validate(user) {
         } else if (!validateLength(user.username, USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH)) {
             console.log('m | -validator |err: user.username: ' + user.username);
             reject(USERNAME_LENGTH);
-        } else if (!validateRegexMatch(user.email, EMAIL_REGEX)) {
+        } else if (!validateRegexMatch(user.eMail, EMAIL_REGEX)) {
             console.log('m | -validator |err: user.email: ' + user.email);
             reject(EMAIL_DOES_NOT_MATCH);
         }
