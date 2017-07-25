@@ -1,16 +1,28 @@
 class Game {
-    constructor(id, name, rules, deck) {
-        this.gameId = id;
-        this.name = name;
-        this.rules = rules;
-        this.deck = deck;
-        this.players = [];//{user,score}
-    }
 
 }
+//  gameId: {
+//      type: Number,
+//     required: true,
+// },
+// name: {
+//     type: String,
+//     required: true,
+//    unique: true
+// },
+//  deck: {
+//     type: String,
+//     required: true,
+//  },
+// rules: {
+//     type: String,
+//     required: true,
+// },
+// maxPlayersCount: {
+//     type: Number,
+//     required: true,
+//  },
+//  instances: [{ type: Object }] //to fix
+//});
 
 module.exports = Game;
-
-
-//cardsCount=98;
-//openCards='1,100,1,100';

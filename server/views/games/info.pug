@@ -1,0 +1,15 @@
+extends ../_shared/_master
+
+block content
+    p Game: #{context.name}
+    P list of game instances to play with the time to start
+        each instance in context.instances
+            div
+                //instance.players.length
+                |#{instance.startTime}/#{context.maxPlayersCount}
+                form(action="/games/"+context.gameId+"/play" method="get")
+                    button Join Game
+        div 
+            form(action="/games/"+context.gameId+"/play" method="post")
+                button Start New Game
+    p Best players - TO DO

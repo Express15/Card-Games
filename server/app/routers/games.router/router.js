@@ -6,12 +6,25 @@ const attachTo = (app, data) => {
 
     router
         .get('/', (req, res) => { // pages
-            return controller.getAll(req,res);
+            return controller.getAll(req, res);
         })
-        .get('/:gameId', (req, res) => { // ??
-            return controller.getGame(req,res);
+        .get('/statistics', (req, res) => { // ??
+            return controller.showTotalResults(req, res);
+        })
+        .get('/:gameId', (req, res) => {
+            return controller.getGame(req, res);
+        })
+        //    .get('/:gameId/results', (req, res) => { 
+        //       return controller.showGameResults(req, res);
+        //   })
+        
+        .post('/:gameId/play', (req, res) => { // if is auth!!!
+            return controller.createGameInstance(req, res);
+        })
+        .get('/:gameId/play', (req, res) => { //if is auth!!!
+            return controller.joinGameInstance(req, res);
         });
-        //search
+
 
     app.use('/games', router);
 };

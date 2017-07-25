@@ -1,20 +1,25 @@
-const modelCreator = require('./utils/model-creator');
 const encryption = require("../utils/encryption");
+class User {
 
-module.exports = modelCreator.register('User', {
-    username: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    eMail: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    playedGames: [{ type: Object }]
-});
+}
+//  username: {
+//       type: String,
+//       required: true,
+//       unique: true
+//  },
+//   eMail: {
+//       type: String,
+//      required: true,
+//      unique: true
+//  },
+//   password: {
+//       type: String,
+//       required: true
+//   },
+//  totalScore:{
+//      type:Number
+//  }
+// playedGames: [{ type: Object }]
+//});
+
+module.exports = User;

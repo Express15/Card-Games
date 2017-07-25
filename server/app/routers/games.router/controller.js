@@ -6,22 +6,41 @@ class GameController {
     getAll(req, res) {
         return this.data.games.getAll()
             .then((games) => {
-
                 return res.render('games/all', {
                     context: games,
                 });
             });
     }
-    getGame(req, res) {
+    getGame(req, res) { // get active games
         const { gameId } = req.params
-        //   return data.games.getGame(gameId)
-        //       .then((game) => {
-        const game = this.data.games.getGame(gameId);
-        return res.render('games/game', {
-            id: game.gameId,
-            name: game.name
-        });
-        //       });
+        return this.data.games.getGame(gameId)
+            .then((game) => {
+                return res.render('games/info', {
+                    context: game
+                });
+            });
+    }
+
+    showTotalResults(req, res) { // in another router
+        return this.data.users.getResults()
+            .then((results) => {
+                return res.render('statistics', {
+                    context: results,
+                });
+            });
+    }
+    createGameInstance(req, res) {
+
+        const { gameId } = req.params
+        return this.data.games.startNewGame(gameId)
+            .then((game) => {
+                return res.render('games/play', {
+                    "context": game,
+                });
+            });
+    }
+    joinGameInstance(req, res) {
+
     }
 }
 

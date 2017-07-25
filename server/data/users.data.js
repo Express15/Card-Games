@@ -3,7 +3,6 @@ const { ObjectID } = require('mongodb');
 
 class UsersData {
     constructor(db) {
-        this.db = db;
         this.collection = db.collection('users');
     }
     findByUsername(username) {
@@ -37,7 +36,7 @@ class UsersData {
             password: user.password
         });
 
-        return Promise.resolve(this.collection.insert(newUser));
+        return this.collection.insert(newUser);
         //     if (user.password !== user.confirm) // fix confirm-password named
         //         this.collection.push(user);
         //    return user;
@@ -55,6 +54,14 @@ class UsersData {
 
         //            return true;
         //});
+    }
+
+    getResults() {
+        return this.collection.find({}, { username:1, totalScore:1 }).toArray()
+            .then((scores) => {
+                return scores.sort((a, b) => b.score - a.score).slice(0, 10);
+            })
+
     }
 }
 

@@ -4,8 +4,10 @@ const fs = require('fs');
 const path = require('path');
 
 const attachTo = (app, data) => {
-
-    app.get('/', (req, res) => {            
+    app.get('/about', (req, res) => {
+        return res.render('about'); 
+    });
+    app.get('/', (req, res) => {
         return res.render('home'); // maybe controller to be testable???
     });
 

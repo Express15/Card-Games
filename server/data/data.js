@@ -4,7 +4,7 @@ const GamesData = require('./games.data');
 const UsersData = require('./users.data');
 
 const init = (db) => {
-    return Promise.resolve({
+    return Promise.resolve({ //??? is it nesseccery
         games: new GamesData(db),
         // todos: new TodosData(db),
         // categories: new CategoriesData(db),
