@@ -1810,9 +1810,6 @@ mongodb-core@2.1.14:
     bson "~1.0.4"
     require_optional "~1.0.0"
 
-<<<<<<< HEAD
-"mongodb@>= 1.2.0 <3.0.0", mongodb@^2.2.29:
-=======
 mongodb@2.2.27:
   version "2.2.27"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-2.2.27.tgz#34122034db66d983bcf6ab5adb26a24a70fef6e6"
@@ -1822,7 +1819,6 @@ mongodb@2.2.27:
     readable-stream "2.2.7"
 
 "mongodb@>= 1.2.0 <3.0.0", mongodb@^2.2.30:
->>>>>>> 10a8910c876278745d1d93b97214722ba6f0a932
   version "2.2.30"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-2.2.30.tgz#8ccd801f676c8172040c2f2b47e9602a0d5634ab"
   dependencies:

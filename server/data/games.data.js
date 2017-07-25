@@ -33,11 +33,11 @@ class GamesData { // to fix
             });
 
 
-        let newGame = new GameInstance({
+        let newGame = {
             game: gameInfo, // cannot add the gameInfo!!!
             status: 'avaliable',
             startTime: startTime,
-        });
+        };
 
         this.gamesInfo.update({ "gameId": id }, { $addToSet: { instances: newGame } })
         return this.games.insert(newGame);

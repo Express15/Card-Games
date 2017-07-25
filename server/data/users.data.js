@@ -31,14 +31,16 @@ class UsersData {
     }
 
     createUser(user) {
+      
         return userValidator.validate(user)
             .then(() => {
                 return new Promise((resolve) => {
-                    let newUser = new User({
+                    let newUser = {
                         username: user.username,
                         email: user.email,
                         password: user.password,
-                    });
+                    };
+                    
                     resolve(newUser);
                 });
             })
@@ -51,11 +53,7 @@ class UsersData {
         //     password: user.password
         // });
 
-<<<<<<< HEAD
-        return this.collection.insert(newUser);
-=======
         // return Promise.resolve(this.collection.insert(newUser));
->>>>>>> 10a8910c876278745d1d93b97214722ba6f0a932
         //     if (user.password !== user.confirm) // fix confirm-password named
         //         this.collection.push(user);
         //    return user;
