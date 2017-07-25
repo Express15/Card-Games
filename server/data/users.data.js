@@ -30,8 +30,7 @@ class UsersData {
         });
     }
 
-    createUser(user) {
-      
+    createUser(user) {      
         return userValidator.validate(user)
             .then(() => {
                 return new Promise((resolve) => {

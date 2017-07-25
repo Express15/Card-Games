@@ -21,7 +21,7 @@ const attachTo = (app, data) => {
         .post('/:gameId/play', (req, res) => { // if is auth!!!
             return controller.createGameInstance(req, res);
         })
-        .get('/:gameId/play', (req, res) => { //if is auth!!!
+        .get('/:gameId/play/:id', (req, res) => { //if is auth!!!
             return controller.joinGameInstance(req, res);
         });
 

@@ -11,14 +11,19 @@ class GameController {
                 });
             });
     }
+
     getGame(req, res) { // get active games
         const { gameId } = req.params
-        return this.data.games.getGame(gameId)
-            .then((game) => {
-                return res.render('games/info', {
-                    context: game
+        return this.data.games.getGame(gameId, function (err, result) {
+            if (err) {
+                // return error here using res
+            } else {
+               return res.render('games/info', {
+                    context: result
                 });
-            });
+            }
+        });
+           
     }
 
     showTotalResults(req, res) { // in another router
@@ -29,18 +34,41 @@ class GameController {
                 });
             });
     }
+
     createGameInstance(req, res) {
-
-        const { gameId } = req.params
-        return this.data.games.startNewGame(gameId)
-            .then((game) => {
-                return res.render('games/play', {
-                    "context": game,
+        if (req.isAuthenticated()) {
+            const { gameId } = req.params;
+             const user=req.user.username;
+            return this.data.games.startNewGame(gameId,user)
+                .then((game) => {
+                    //joinGame
+                    return res.render('games/play', {
+                        context: game,
+                    });
                 });
-            });
+        }
+        else {
+            return res.redirect('/auth/sign-in');
+        }
     }
-    joinGameInstance(req, res) {
 
+    joinGameInstance(req, res) {
+        if (req.isAuthenticated()) {
+            const { id } = req.params;
+            const user=req.user.username;
+            return this.data.games.joinGame(id,user)
+                .then((game) => {
+                    if(game===null){
+                        res.redirect(req.get('referer'));
+                    }
+                    return res.render('games/play', {
+                        context: game,
+                    });
+                });
+        }
+        else {
+            return res.redirect('/auth/sign-in');
+        }
     }
 }
 
