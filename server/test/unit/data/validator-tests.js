@@ -10,7 +10,7 @@ describe('validator', () => {
         it('expect to be rejected when Username is not provided', () => {
             const user = {
                 username: '',
-                eMail: '',
+                email: '',
                 password: '',
             };
 
@@ -20,7 +20,7 @@ describe('validator', () => {
         it('expect NOT to be rejected when Username is valid', () => {
             const user = {
                 username: 'somename',
-                eMail: '',
+                email: '',
                 password: '',
             };
 
@@ -33,7 +33,7 @@ describe('validator', () => {
         it('expect to be rejected when Username is with length less then 3', () => {
             const user = {
                 username: 'so',
-                eMail: '',
+                email: '',
                 password: '',
             };
 
@@ -43,7 +43,7 @@ describe('validator', () => {
         it('expect to be rejected when Username is with length more then 30', () => {
             const user = {
                 username: '1234567890123456789012345678901234567890',
-                eMail: '',
+                email: '',
                 password: '',
             };
 
@@ -53,7 +53,7 @@ describe('validator', () => {
         it('expect NOT to be rejected when Username is with proper length', () => {
             const user = {
                 username: 'somename',
-                eMail: '',
+                email: '',
                 password: '',
             };
 
@@ -65,7 +65,7 @@ describe('validator', () => {
         it('expect to be rejected when email doesnt match a certain valid pattern', () => {
             const user = {
                 username: 'someuser',
-                eMail: 'nonvalidEmail@',
+                email: 'nonvalidemail@',
                 password: '',
             };
 
@@ -75,11 +75,11 @@ describe('validator', () => {
         it('expect NOT to be rejected when email matches a certain valid pattern', () => {
             const user = {
                 username: 'someuser',
-                eMail: 'valid@email.com',
+                email: 'valid@email.com',
                 password: '',
             };
 
-            expect(validate(user)).not.to.be.rejectedWith('Email doesnt match the tamplate *****@***.***');
+            expect(validate(user)).not.to.be.rejectedWith('email doesnt match the tamplate *****@***.***');
         });
     });
 });

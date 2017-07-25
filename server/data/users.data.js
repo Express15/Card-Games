@@ -37,7 +37,7 @@ class UsersData {
                 return new Promise((resolve) => {
                     let newUser = new User({
                         username: user.username,
-                        eMail: user.email,
+                        email: user.email,
                         password: user.password,
                     });
                     resolve(newUser);

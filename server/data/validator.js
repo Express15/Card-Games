@@ -45,7 +45,6 @@ function validateDateType(input) {
 }
 
 function validateRegexMatch(input, regex) {
-    console.log('input = ' + input);
     if (!input.match(regex)) {
         return false;
     }
@@ -89,7 +88,7 @@ function escapeProhibitedChars(input) {
 
 function validate(user) {
     return new Promise((resolve, reject) => {
-        console.log('-validator |');
+        console.log('m | -validator |');
         const props = Object.keys(user);
         for (let prop of props) {
             const value = user[prop];
@@ -104,7 +103,7 @@ function validate(user) {
         } else if (!validateLength(user.username, USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH)) {
             console.log('m | -validator |err: user.username: ' + user.username);
             reject(USERNAME_LENGTH);
-        } else if (!validateRegexMatch(user.eMail, EMAIL_REGEX)) {
+        } else if (!validateRegexMatch(user.email, EMAIL_REGEX)) {
             console.log('m | -validator |err: user.email: ' + user.email);
             reject(EMAIL_DOES_NOT_MATCH);
         }
