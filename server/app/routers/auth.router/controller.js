@@ -6,20 +6,22 @@ class UserController {
     getSignUpForm(req, res) {
         return res.render('auth/sign-up');
     }
+
     getSignInForm(req, res) {
         return res.render('auth/sign-in');
     }
+
     getUserProfile(req, res) {
         return res.render('auth/user');
     }
+
     signOut(req, res) {
         req.logout();
         return res.redirect('/');
     }
 
     signUp(req, res) {
-        const bodyUser = req.body;
-
+        const bodyUser = req.body;        
         this.data.users.findByUsername(bodyUser.username)
             .then((dbUser) => {
                 if (dbUser) {
@@ -29,7 +31,7 @@ class UserController {
                 return this.data.users.createUser(bodyUser);
             })
             .then((dbUser) => {
-                return res.redirect('/auth/sign-in'); //???
+                return res.redirect('/auth/sign-in');
             })
             .catch((err) => {
                 console.log('m | controller | err: ' + err);

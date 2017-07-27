@@ -8,7 +8,7 @@ const attachTo = (app, data) => {
         return res.render('about'); 
     });
     app.get('/', (req, res) => {
-        return res.render('home'); // maybe controller to be testable???
+        return res.render('home'); 
     });
 
     fs.readdirSync(__dirname)

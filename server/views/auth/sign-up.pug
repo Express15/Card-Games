@@ -1,11 +1,14 @@
 extends ../_shared/_master
-
+block scripts 
+    script(type="text/javascript", src="/libs/jquery-validation/dist/jquery.validate.js")
+    script(type="text/javascript", src="http://jquery.bassistance.de/validate/additional-methods.js")
+    script(type="text/javascript", src="/public/scripts/validators/sign-up.js")
 block content
-    form(action='/auth/sign-up', method="POST")
+    form#signup-form(action='/auth/sign-up', method="POST")
         input.form-control(type="text" name="name" placeholder="Name")
         input.form-control(type="text" name="username" placeholder="Username")
         input.form-control(type="email" name="email" placeholder="Email")
-        input.form-control(type="password" name="password" placeholder="Password")
+        input.form-control#password(type="password" name="password" placeholder="Password")
         input.form-control(type="password" name="confirm-password" placeholder="Confirm password")
         button.btn.btn-success
             | Sign Up

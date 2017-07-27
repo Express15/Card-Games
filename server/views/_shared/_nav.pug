@@ -1,6 +1,5 @@
 mixin nav()
-    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
-    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
+    
     nav.navbar.navbar-light(style="background-color: #e3f2fd;")
         div.container-fluid
             ul.nav.navbar-nav
@@ -14,10 +13,10 @@ mixin nav()
                     a(href="/about")
                         | About
                 li
-                    a(href="games/statistics")
+                    a(href="/games/statistics")
                         | Statistics               
                 li
-                    a(href="games/play")
+                    a(href="/games/play")
                         | Play Game
             ul.nav.navbar-nav.navbar-right
                 if user
@@ -33,12 +32,12 @@ mixin nav()
                                     |  Sign-out
                 else
                     li
-                        form(action="auth/sign-up" method="get")
+                        form(action="/auth/sign-up" method="get")
                             button.nav-btn
                                 span.glyphicon.glyphicon-user
                                     |  Sign-up
                     li
-                        form(action="auth/sign-in" method="get")
+                        form(action="/auth/sign-in" method="get")
                             button.nav-btn
                                 span.glyphicon.glyphicon-log-in
                                     |  Sign-in

@@ -6,10 +6,7 @@ class GameInstance {
 //       type: Object,
 //       required: true,
 //   },
-//   status: {
-//       type: String,
-//       required: true,
-//   },
+//  
 //   startTime: {
 //       type: Date,
 //       required: true,

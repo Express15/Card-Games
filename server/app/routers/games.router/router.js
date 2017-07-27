@@ -14,17 +14,12 @@ const attachTo = (app, data) => {
         .get('/:gameId', (req, res) => {
             return controller.getGame(req, res);
         })
-        //    .get('/:gameId/results', (req, res) => { 
-        //       return controller.showGameResults(req, res);
-        //   })
-        
-        .post('/:gameId/play', (req, res) => { // if is auth!!!
+        .post('/:gameId/play', (req, res) => {
             return controller.createGameInstance(req, res);
         })
-        .get('/:gameId/play/:id', (req, res) => { //if is auth!!!
+        .get('/:gameId/play/:id', (req, res) => {
             return controller.joinGameInstance(req, res);
         });
-
 
     app.use('/games', router);
 };

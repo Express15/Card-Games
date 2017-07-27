@@ -73,10 +73,10 @@ class UsersData {
     }
 
     getResults() {
-        return this.collection.find({}, { username:1, totalScore:1 }).toArray()
-            .then((scores) => {
-                return scores.sort((a, b) => b.score - a.score).slice(0, 10);
-            })
+        // return this.collection.find({}, { username:1, totalScore:1 }).toArray()
+        //     .then((scores) => {
+        //         return scores.sort((a, b) => b.score - a.score).slice(0, 10);
+        //     })
 
     }
 }

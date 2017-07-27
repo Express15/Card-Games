@@ -1,5 +1,3 @@
-// just copied!!!
-
 const session = require('express-session');
 const passport = require('passport');
 const Strategy = require('passport-local');

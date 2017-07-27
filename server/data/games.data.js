@@ -12,18 +12,6 @@ class GamesData { // to fix
         const startTime = new Date();
         startTime.getDate();
         return Promise.resolve(this.gamesInfo
-            // .findOne({ gameId: id }, {
-            //     gameId: 1, name: 1, deck: 1, rules: 1, maxPlayersCount: 1,
-            //     instances: {
-            //       //  $all: [{
-            //             $elemMatch: {
-            //                 startTime: {
-            //                     $gte: startTime
-            //                 }
-            //             }
-            //      //   }]
-            //     }
-            // });
             .aggregate(
             { $match: { gameId: id } },
             {
@@ -40,20 +28,32 @@ class GamesData { // to fix
             }, function (err, result) {
                 callback(err, result[0]);
             }));
-        // console.log(game);
-
+        // .findOne({ gameId: id }, {
+        //     gameId: 1, name: 1, deck: 1, rules: 1, maxPlayersCount: 1,
+        //     instances: {
+        //       //  $all: [{
+        //             $elemMatch: {
+        //                 startTime: {
+        //                     $gte: startTime
+        //                 }
+        //             }
+        //      //   }]
+        //     }
+        // });
     }
 
     getAll(id) {
         return this.gamesInfo.find()
             .toArray();
     }
-    
+
     joinGame(id, user) {
+        const startTime = new Date();
+        startTime.getDate();
         return this.games.findOne({ _id: new ObjectID(id) })
             .then((game) => {
-                if (game.players.length >= 5) {
-                    return null;// !!!
+                if (+game.startTime <= +startTime && game.players.length >= 5) { // game.game.maxPlayersCount
+                    return null;
                 }
                 if (!game.players.find(p => p.username === user)) {
                     this.games.update({
@@ -72,6 +72,7 @@ class GamesData { // to fix
                 return game;
             })
     }
+
     startNewGame(id, user) {
         const startTime = new Date();
         startTime.setMinutes(startTime.getMinutes() + 30);
@@ -81,7 +82,6 @@ class GamesData { // to fix
 
         //     }); // gameInfo=result ???
 
-
         let newGame = {
             game: gameInfo, // cannot add the gameInfo!!!
             // status: 'avaliable',
@@ -89,14 +89,12 @@ class GamesData { // to fix
             players: [{ username: user }],
         };
 
-
         return this.games.insert(newGame)
             .then((game) => {
                 const createdGame = game.ops[0];
-                this.gamesInfo.update({ "gameId": id }, { $addToSet: { instances: createdGame } });
+                this.gamesInfo.update({ gameId: id }, { $addToSet: { instances: createdGame } });
                 return createdGame;
             });
-
     }
 }
 
