@@ -1,6 +1,30 @@
 extends ../_shared/_master
-
+block scripts
+    script(src="/public/scripts/game-logic.js")
 block content
     p Here we play!!!
     p
         |#{context.players.length} the players
+    div.panel.panel-default
+        div.panel-body
+            p Numbers go down &#8595
+            button#pile1.btn 100
+            button#pile2.btn 100
+        div.panel-body
+            p Numbers go up &#8593
+            button#pile3.btn 1
+            button#pile4.btn 1
+    div.well
+        button#card1.btn.btn-default
+        button#card2.btn.btn-default
+        button#card3.btn.btn-default
+        button#card4.btn.btn-default
+        button#card5.btn.btn-default
+        button#card6.btn.btn-default
+        button#card7.btn.btn-default
+        button#card8.btn.btn-default
+    div.well
+        span Cards left:
+        span#leftCards 90
+    button#end-turn.btn.btn-default End Turn
+    button#new-game.btn.btn-primary New Game

@@ -10,7 +10,7 @@ const USERNAME_REQUIRED = 'Username is required';
 const USERNAME_LENGTH = 'Username length must be between 3 and 30 symbols long';
 const PASSWORD_REQUIRED = 'Password is required';
 const CONFIRM_PASSWORD_REQUIRED = 'Confirm password is required';
-const CONFIRM_PASSWORD_MUST_BE_EQUAL = 'Confirm password is required';
+const CONFIRM_PASSWORD_MUST_BE_EQUAL = 'Confirm password must be equal';
 const EMAIL_REQUIRED = 'Password is required';
 const EMAIL_DOES_NOT_MATCH = 'Email doesnt match the tamplate *****@***.***';
 const PASSWORD_DOES_NOT_MATCH = 'Password must contain....';
@@ -42,7 +42,7 @@ $().ready(function () {
                 required: true,
                 regex: PASSWORD_REGEX,
             },
-            confirmPassword: {
+            confirm: {
                 equalTo: '#password'
             },
         },
@@ -63,7 +63,7 @@ $().ready(function () {
                 required: PASSWORD_REQUIRED,
                 regex: PASSWORD_DOES_NOT_MATCH,
             },
-            confirmPassword: {
+            confirm: {
                 equalTo: CONFIRM_PASSWORD_MUST_BE_EQUAL
             },
         }
