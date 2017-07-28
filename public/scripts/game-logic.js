@@ -2,6 +2,7 @@ $( document ).ready(function() {
     function newGame(numberOfPlayers){
         var hand;
 
+        //Find how many cards in a hand there are.
         switch(numberOfPlayers){
             case 1: hand = 8; break;
             case 2: hand = 7;
@@ -13,27 +14,31 @@ $( document ).ready(function() {
             default: hand = 6; $("#card8").hide(); $("#card7").hide();
         }
 
+        //Show the needed cards
         for(var i=1;i<=hand;i++){
             $("#card"+i).show();
         }
 
+        //show how many are left in the deck
         $("#leftCards").text(90);
 
+        //show the piles
         $("#pile1").text(100);
         $("#pile2").text(100);
         $("#pile3").text(1);
         $("#pile4").text(1);
 
-        var selectedCard = 0;
-        var lastSelected = '';
-        var index = 97;
-        var cardNumber = -1;
+        var selectedCard = 0; // the number written on the selected card. Example: 42
+        var lastSelected = ''; // id of the card that is last selected. Example: '#card3'
+        var index = 97; // the index of the top deck card. Example: 52
+        var cardNumber = -1; //index of id of the card that is last selected. Example: 3
 
         var deck = new Array(98);
         var visited = new Array(98);
-        var used = new Array(hand+1);
+        var used = new Array(hand); // used cards during a turn
 
-        for(var i=0;i<=hand;i++){
+        //initialize the arrays
+        for(var i=0;i<hand;i++){
             used[i] = 0;
         }
 
@@ -70,7 +75,7 @@ $( document ).ready(function() {
         function selectCard(id){
             selectedCard = $(id).text();
             lastSelected = id;
-               cardNumber = Number(id.substring(5, 6));
+            cardNumber = Number(id.substring(5, 6));
         }
 
         $("#card1").click(function(){
@@ -103,8 +108,8 @@ $( document ).ready(function() {
                 return;
             }
             if(selectedCard < Number($(id).text()) || selectedCard == Number($(id).text()) + 10){
-                if(used[cardNumber] == 0){
-                    used[cardNumber] = 1;
+                if(used[cardNumber - 1] == 0){
+                    used[cardNumber - 1] = 1;
                     $(id).text(selectedCard);
                     $(lastSelected).hide();
                 }
@@ -124,8 +129,8 @@ $( document ).ready(function() {
                 return;
             }
             if(selectedCard > Number($(id).text()) || selectedCard == Number($(id).text()) - 10){
-                if(used[cardNumber] == 0){
-                    used[cardNumber] = 1;
+                if(used[cardNumber - 1] == 0){
+                    used[cardNumber - 1] = 1;
                     $(id).text(selectedCard);
                     $(lastSelected).hide();
                 }
@@ -141,22 +146,58 @@ $( document ).ready(function() {
         });
 
         $("#end-turn").click(function(){
-            var count=0;
+            var count = 0;
 
-            for(var i=1;i<=hand;i++){
+            for(var i=0;i<hand;i++){
                 if(used[i]){
                     count++;
                 }
             }
 
-            if(count<2){
+            var canMove = 0;
+            var cardIndex;
+
+            for(var i=0;i<hand;i++){
+                cardIndex = i + 1;
+                if(!used[i]){
+                    for(var j=1;j<=2;j++){
+                        if(Number($("#card"+cardIndex).text()) < Number($("#pile"+j).text()) || Number($("#card"+cardIndex).text()) == Number($("#pile"+j).text()) + 10){
+                            canMove=1;
+                            break;
+                        }
+                    }
+                    for(var j=3;j<=4;j++){
+                        if(Number($("#card"+cardIndex).text()) < Number($("#pile"+j).text()) || Number($("#card"+cardIndex).text()) == Number($("#pile"+j).text()) + 10){
+                            canMove=1;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if(canMove && count<2){
+                return;
+            }
+
+            //Game Over
+            if(!canMove && count<2){
+                var numberOfCards = index+1;
+                numberOfCards += 8 - count;
+                var score = 0;
+                if(numberOfCards<10){
+                    score = 10 - numberOfCards;
+                    alert("Congratulations! You won the game! Your score is:" + score);
+                }
+                else{
+                    alert("Sorry, you lost the game...");
+                }
                 return;
             }
 
             for(var i=1;i<=hand;i++){
                 $("#card" + i).show();
 
-                if(used[i]){
+                if(used[i-1]){
                     if(index == -1){
                         $("#card" + i).hide();
                     }
@@ -165,7 +206,7 @@ $( document ).ready(function() {
                         index--;
                     }
                 }
-                used[i] = 0;
+                used[i-1] = 0;
             }
 
             for(var i=1; i<=hand;i++)
@@ -181,10 +222,6 @@ $( document ).ready(function() {
             }
 
             $("#leftCards").text(index+1);
-            if(index+1 == 0){
-                redirect('/',req=score)
-                alert("Congratulations! You won the game!");
-            }
         });
 
     }
