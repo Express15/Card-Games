@@ -1,8 +1,11 @@
 extends ../_shared/_master
 
 block content
-    p List of games and pictures -- To Do
-    ul
-        each game in context
-            li
-                a(href="games/"+game.gameId) #{game.name}, #{game.gameId}              
+    div.games-list
+        p List of games to play
+        ul
+            each game in context
+                li.game-list
+                    a(href="games/"+game.gameId) #{game.name}
+                    br
+                    img.game-image(src="/public/css/images/"+game.name+".jpg")        

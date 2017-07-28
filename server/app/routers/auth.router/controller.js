@@ -19,25 +19,6 @@ class UserController {
         req.logout();
         return res.redirect('/');
     }
-
-    signUp(req, res) {
-        const bodyUser = req.body;        
-        this.data.users.findByUsername(bodyUser.username)
-            .then((dbUser) => {
-                if (dbUser) {
-                    throw new Error('User already exists');
-                }
-
-                return this.data.users.createUser(bodyUser);
-            })
-            .then((dbUser) => {
-                return res.redirect('/auth/sign-in');
-            })
-            .catch((err) => {
-                console.log('m | controller | err: ' + err);
-                req.flash('error', err);
-            });
-    }
 }
 
 const init = (data) => {

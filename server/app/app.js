@@ -14,6 +14,7 @@ const init = (data) => {
         res.locals.messages = require('express-messages')(req, res);
         next();
     });
+    app.locals.moment = require('moment');
     require('./routers')
         .attachTo(app, data);
 

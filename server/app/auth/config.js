@@ -5,7 +5,7 @@ const MongoStore = require('connect-mongo')(session);
 const config = require('../../config');
 
 const applyTo = (app, data) => {
-    const strategy = new Strategy((username, password, done) => {
+    const signinStrategy = new Strategy((username, password, done) => {
         data.users.checkPassword(username, password)
             .then((user) => {
                 done(null, user);
@@ -15,7 +15,21 @@ const applyTo = (app, data) => {
             });
     });
 
-    passport.use(strategy);
+    const signupStrategy = new Strategy({   // 'login-signup' is optional here   
+    usernameField : 'username',
+    passwordField : 'password',        
+    passReqToCallback : true },(req, username, password, done) => {       
+        data.users.createUser(req.body)
+            .then((user) => {
+                done(null, user);
+            })
+            .catch((err) => {
+                done(err);
+            });
+    });
+
+    passport.use('local-signin', signinStrategy);
+    passport.use('local-signup', signupStrategy);
     app.use(session({
         store: new MongoStore({ url: config.connectionString }),
         secret: config.sessionSecret,
@@ -26,6 +40,7 @@ const applyTo = (app, data) => {
     app.use(passport.session());
 
     passport.serializeUser((user, done) => {
+        console.log(user);
         done(null, user._id);
     });
 

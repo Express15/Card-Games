@@ -8,6 +8,17 @@ class GamesData { // to fix
         this.games = db.collection('games');
     }
 
+    getAllGames() {
+        const startTime = new Date();
+        startTime.getDate();
+
+        return this.games.find({
+            startTime: {
+                $gte: startTime
+            }
+        }).toArray();
+    }
+
     getGame(id, callback) {
         const startTime = new Date();
         startTime.getDate();
@@ -76,24 +87,23 @@ class GamesData { // to fix
     startNewGame(id, user) {
         const startTime = new Date();
         startTime.setMinutes(startTime.getMinutes() + 30);
-        let gameInfo;
-        // this.getGame(id)
-        //     .then((result) => {
 
-        //     }); // gameInfo=result ???
-
-        let newGame = {
-            game: gameInfo, // cannot add the gameInfo!!!
-            // status: 'avaliable',
-            startTime: startTime,
-            players: [{ username: user }],
-        };
-
-        return this.games.insert(newGame)
-            .then((game) => {
-                const createdGame = game.ops[0];
-                this.gamesInfo.update({ gameId: id }, { $addToSet: { instances: createdGame } });
-                return createdGame;
+        return this.gamesInfo
+            .findOne({ gameId: id }, {
+                gameId: 1, name: 1, maxPlayersCount: 1, deck: 1
+            })
+            .then((result) => {
+                let newGame = {
+                    game: result,
+                    startTime: startTime,
+                    players: [{ username: user }],
+                };
+                return this.games.insert(newGame)
+                    .then((game) => {
+                        const createdGame = game.ops[0];
+                        this.gamesInfo.update({ gameId: id }, { $addToSet: { instances: createdGame } });
+                        return createdGame;
+                    });
             });
     }
 }

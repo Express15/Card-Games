@@ -17,6 +17,9 @@ const attachTo = (app, data) => {
         .post('/:gameId/play', (req, res) => {
             return controller.createGameInstance(req, res);
         })
+        // .put('/:gameId/play/:id', (req, res) => {
+        //     return controller.joinGameInstance(req, res);
+        // })
         .get('/:gameId/play/:id', (req, res) => {
             return controller.joinGameInstance(req, res);
         });

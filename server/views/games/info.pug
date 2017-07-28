@@ -1,23 +1,30 @@
 extends ../_shared/_master
 
 block content
-    p Game: #{context.name}
-    P list of game instances to play with the time to start
-        if context.instances
-            each instance in context.instances
-                case instance.players.length
-                    when 5
-                        div.unavaliable
-                            |#{instance.startTime} #{instance.players.length}/#{context.maxPlayersCount}
-                            form(action="/games/"+context.gameId+"/play/"+instance._id+"" method="get")
-                                button Join Game
-                    default
-                        div.avaliable
-                            |#{instance.startTime} #{instance.players.length}/#{context.maxPlayersCount}
-                            form(action="/games/"+context.gameId+"/play/"+instance._id+"" method="get")
-                                button Join Game
-                                // if user is joined to be able to open after starts? and to write joined?
-        div 
+    div.game
+        div.game-info
+            h2 #{context.name} Game
+            img.game-image(src="/public/css/images/"+context.name+".jpg") 
             form(action="/games/"+context.gameId+"/play" method="post")
-                button Start New Game
-    p Best players - TO DO
+                button Start New Game            
+        div.game-rules
+            h4 Rules
+            |#{context.rules}                
+        ul.games-list
+            h4 List of active games
+            if context.instances
+                each instance in context.instances
+                    case instance.players.length
+                        when 5
+                            li.game-list.unavaliable
+                                |Starts #{moment(instance.startTime).fromNow()} #{instance.players.length}/#{context.maxPlayersCount}
+                                form(action="/games/"+context.gameId+"/play/"+instance._id+"" method="get")
+                                    button Join Game
+                        default
+                            li.game-list
+                                |Starts #{moment(instance.startTime).fromNow()} #{instance.players.length}/#{context.maxPlayersCount}
+                                form(action="/games/"+context.gameId+"/play/"+instance._id+"" method="get")
+                                    button Join Game
+                                    // if user is joined to be able to open after starts? and to write joined?
+        div.game-statistics 
+            h4 Best players - TO DO

@@ -30,22 +30,47 @@ class UsersData {
         });
     }
 
-    createUser(user) {      
-        return userValidator.validate(user)
-            .then(() => {
+    createUser(bodyUser) {   
+       return this.findByUsername(bodyUser.username)
+            .then((dbUser) => {
+                if (dbUser) {
+                    throw new Error('User already exists');
+                }
+
                 return new Promise((resolve) => {
                     let newUser = {
-                        username: user.username,
-                        email: user.email,
-                        password: user.password,
+                        name:bodyUser.name,
+                        username: bodyUser.username,
+                        email: bodyUser.email,
+                        password: bodyUser.password, //hash password
                     };
                     
                     resolve(newUser);
                 });
             })
             .then((newUser) => {
-                return this.collection.insert(newUser);
+                return this.collection.insert(newUser)
+                .then((result)=>{
+                    return result.ops[0];
+                });
             });
+           
+
+        // return userValidator.validate(user)
+        //     .then(() => {
+        //         return new Promise((resolve) => {
+        //             let newUser = {
+        //                 username: user.username,
+        //                 email: user.email,
+        //                 password: user.password, //hash password
+        //             };
+                    
+        //             resolve(newUser);
+        //         });
+        //     })
+        //     .then((newUser) => {
+        //         return this.collection.insert(newUser);
+        //     });
         // let newUser = new User({
         //     username: user.username,
         //     eMail: user.email,

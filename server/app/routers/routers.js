@@ -4,11 +4,13 @@ const fs = require('fs');
 const path = require('path');
 
 const attachTo = (app, data) => {
+    const controller = require('./games.router/controller').init(data);
     app.get('/about', (req, res) => {
         return res.render('about'); 
     });
     app.get('/', (req, res) => {
-        return res.render('home'); 
+          return controller.getAllActiveGames(req,res);
+       // return res.render('home'); 
     });
 
     fs.readdirSync(__dirname)

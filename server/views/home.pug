@@ -1,5 +1,34 @@
 extends _shared/_master
+block scripts
+    script(src="/libs/moment/moment.js")  
 
 block content
-    h1 Welcome to The Game
-    h2 To do!!!
+    h1.welcome.container-fluid Welcome to The Game
+    if context.length
+        div.games.container-fluid
+            p  ACTIVE GAMES:
+            ul.games-list
+            each instance in context
+                case instance.players.length
+                    when 5
+                        li.game-list.unavaliable
+                            img.game-image(src="/public/css/images/"+instance.game.name+".jpg")
+                            div
+                                h4 #{instance.game.name} Game 
+                                br                          
+                                |Starts #{moment(instance.startTime).fromNow()}  
+                                form(action="/games/"+instance.game.gameId+"/play/"+instance._id+"" method="get")
+                                    button Join Game                 
+                                |Joined players #{instance.players.length}/#{instance.game.maxPlayersCount}
+                    default
+                        li.game-list.game
+                            img.game-image(src="/public/css/images/"+instance.game.name+".jpg")
+                            div
+                                h4 #{instance.game.name} Game 
+                                br                          
+                                |Starts #{moment(instance.startTime).fromNow()}  
+                                form(action="/games/"+instance.game.gameId+"/play/"+instance._id+"" method="get")
+                                    button Join Game                 
+                                |Joined players #{instance.players.length}/#{instance.game.maxPlayersCount}
+                                
+                            // if user is joined to be able to open after starts, to write joined, to be active if is joined but full

@@ -1,5 +1,4 @@
-mixin nav()
-    
+mixin nav()    
     nav.navbar.navbar-light(style="background-color: #e3f2fd;")
         div.container-fluid
             ul.nav.navbar-nav
@@ -15,29 +14,26 @@ mixin nav()
                 li
                     a(href="/games/statistics")
                         | Statistics               
-                li
-                    a(href="/games/play")
-                        | Play Game
             ul.nav.navbar-nav.navbar-right
                 if user
                     li
                         form(action="/auth/user" method="get")
-                            button.nav-btn
+                            button.nav-btn.auth-btn
                                 span.glyphicon.glyphicon-user
                                     |  Profile
                     li
                         form(action="/auth/sign-out" method="post")
-                            button.nav-btn
+                            button.nav-btn.auth-btn
                                 span.glyphicon.glyphicon-log-out
                                     |  Sign-out
                 else
                     li
                         form(action="/auth/sign-up" method="get")
-                            button.nav-btn
+                            button.nav-btn.auth-btn
                                 span.glyphicon.glyphicon-user
                                     |  Sign-up
                     li
                         form(action="/auth/sign-in" method="get")
-                            button.nav-btn
+                            button.nav-btn.auth-btn
                                 span.glyphicon.glyphicon-log-in
                                     |  Sign-in

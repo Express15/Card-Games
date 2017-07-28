@@ -69,6 +69,17 @@ class GameController {
             return res.redirect('/auth/sign-in');
         }
     }
+
+    getAllActiveGames(req,res){
+        return this.data.games.getAllGames()
+         .then((games) => {
+             
+                return res.render('home', {
+                   // info:games.game,
+                    context: games,
+                });
+            });
+    }
 }
 
 const init = (data) => {

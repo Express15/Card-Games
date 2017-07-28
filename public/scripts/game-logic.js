@@ -182,6 +182,7 @@ $( document ).ready(function() {
 
             $("#leftCards").text(index+1);
             if(index+1 == 0){
+                redirect('/',req=score)
                 alert("Congratulations! You won the game!");
             }
         });
