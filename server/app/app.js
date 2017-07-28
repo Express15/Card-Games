@@ -1,6 +1,5 @@
 const express = require('express');
 
-
 const init = (data) => {
     const app = express();
     const config = require('../config');

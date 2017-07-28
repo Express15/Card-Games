@@ -27,7 +27,7 @@ ul{
 	border: 1px solid grey;
 }
 
-.welcome,.games,.game,.game-field,.games-list,.game-info,.game-rules,.game-statistics,.about{
+.welcome,.games,.game,.game-field,.games-list,.game-info,.game-rules,.game-statistics,.about,.statistics{
 	background-color: white;
 	border-radius: 10px;
 	margin: 20px;

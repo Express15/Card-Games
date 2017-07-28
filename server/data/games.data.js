@@ -1,5 +1,3 @@
-const Game = require('../models/game.model');
-const GameInstance = require('../models/game-instance.model');
 const { ObjectID } = require('mongodb');
 
 class GamesData { // to fix
@@ -39,18 +37,6 @@ class GamesData { // to fix
             }, function (err, result) {
                 callback(err, result[0]);
             }));
-        // .findOne({ gameId: id }, {
-        //     gameId: 1, name: 1, deck: 1, rules: 1, maxPlayersCount: 1,
-        //     instances: {
-        //       //  $all: [{
-        //             $elemMatch: {
-        //                 startTime: {
-        //                     $gte: startTime
-        //                 }
-        //             }
-        //      //   }]
-        //     }
-        // });
     }
 
     getAll(id) {
@@ -61,9 +47,11 @@ class GamesData { // to fix
     joinGame(id, user) {
         const startTime = new Date();
         startTime.getDate();
+
         return this.games.findOne({ _id: new ObjectID(id) })
             .then((game) => {
-                if (+game.startTime <= +startTime && game.players.length >= 5) { // game.game.maxPlayersCount
+                if (+game.startTime <= +startTime && game.players.length >= game.game.maxPlayersCount) {
+
                     return null;
                 }
                 if (!game.players.find(p => p.username === user)) {
@@ -80,6 +68,7 @@ class GamesData { // to fix
                             }
                         })
                 }
+
                 return game;
             })
     }
@@ -98,14 +87,58 @@ class GamesData { // to fix
                     startTime: startTime,
                     players: [{ username: user }],
                 };
+
                 return this.games.insert(newGame)
                     .then((game) => {
                         const createdGame = game.ops[0];
                         this.gamesInfo.update({ gameId: id }, { $addToSet: { instances: createdGame } });
+
                         return createdGame;
                     });
             });
     }
+
+    saveResults(gameId, instanceId, username, score) {
+        return this.games.update({
+            _id: new ObjectID(instanceId),
+            players: {
+                $elemMatch: {
+                    username: username
+                }
+            }
+        }, {
+                $set: {
+                    "players.$.score": score
+                }
+            })
+            .then(() => {
+                return this.gamesInfo.update({
+                    gameId: gameId,
+                    "instances._id": new ObjectID(instanceId),
+                }, {
+                        $set: {
+                            "instances.$.players.0.score": score // for multi players to add a new array of players with scores
+                        }
+                    });
+            });
+    }
+
+    getResults(gameId) {
+        //help function
+        function flatten(arr) {
+            return arr.reduce(function (flat, toFlatten) {
+                return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
+            }, []);
+        }
+
+        return this.gamesInfo.find({ gameId: gameId }, { instances: 1 }).toArray()
+            .then((results) => {
+                const players = flatten(results);
+                console.log(players);
+                return players;
+            });
+    }
 }
+
 
 module.exports = GamesData;

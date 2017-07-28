@@ -16,8 +16,10 @@ class GameController {
         const { gameId } = req.params
         return this.data.games.getGame(gameId, function (err, result) {
             if (err) {
-                // return error here using res
-            } else {
+                // return error 
+            } 
+            else {
+                // somewhere to use getGameResults
                 return res.render('games/info', {
                     context: result
                 });
@@ -26,24 +28,17 @@ class GameController {
 
     }
 
-    showTotalResults(req, res) { // in another router
-        return this.data.users.getResults()
-            .then((results) => {
-                return res.render('statistics', {
-                    context: results,
-                });
-            });
-    }
-
     createGameInstance(req, res) {
         if (req.isAuthenticated()) {
             const { gameId } = req.params;
             const user = req.user.username;
+
             return this.data.games.startNewGame(gameId, user)
                 .then((game) => {
-                    return res.render('games/play', {
-                        context: game,
-                    });
+                    const gameId = game.game.gameId;
+                    const instanceId = game._id
+
+                    return res.redirect('/games/' + gameId + '/play/' + instanceId);
                 });
         }
         else {
@@ -55,11 +50,13 @@ class GameController {
         if (req.isAuthenticated()) {
             const { id } = req.params;
             const user = req.user.username;
+
             return this.data.games.joinGame(id, user)
                 .then((game) => {
                     if (game === null) {
                         res.redirect(req.get('referer'));
                     }
+
                     return res.render('games/play', {
                         context: game,
                     });
@@ -70,16 +67,27 @@ class GameController {
         }
     }
 
-    getAllActiveGames(req,res){
-        return this.data.games.getAllGames()
-         .then((games) => {
-             
-                return res.render('home', {
-                   // info:games.game,
-                    context: games,
-                });
+    saveGameResults(req, res) {
+        const { score } = req.body;
+        const { username } = req.user;
+        const { gameId, id } = req.params;
+
+        return this.data.users.saveResults(username, score)
+            .then(() => {
+                return this.data.games.saveResults(gameId, id, username, score);
             });
     }
+
+    // getGameResults(req, res) {
+    //     const { gameId } = req.params
+
+    //     return this.data.games.getResults(gameId)
+    //     .then((results) => {
+    //             return res.render('games/statistics', {
+    //                 context: results,
+    //             });
+    //         });
+    // }
 }
 
 const init = (data) => {

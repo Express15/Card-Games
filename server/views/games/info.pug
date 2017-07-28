@@ -17,14 +17,16 @@ block content
                     case instance.players.length
                         when 5
                             li.game-list.unavaliable
-                                |Starts #{moment(instance.startTime).fromNow()} #{instance.players.length}/#{context.maxPlayersCount}
+                                |Starts #{moment(instance.startTime).fromNow()}
                                 form(action="/games/"+context.gameId+"/play/"+instance._id+"" method="get")
                                     button Join Game
+                                |Players #{instance.players.length}/#{context.maxPlayersCount}
                         default
                             li.game-list
-                                |Starts #{moment(instance.startTime).fromNow()} #{instance.players.length}/#{context.maxPlayersCount}
+                                |Starts #{moment(instance.startTime).fromNow()}
                                 form(action="/games/"+context.gameId+"/play/"+instance._id+"" method="get")
                                     button Join Game
-                                    // if user is joined to be able to open after starts? and to write joined?
+                                |Players #{instance.players.length}/#{context.maxPlayersCount}
+                                // if user is joined to be able to open after starts? and to write joined?
         div.game-statistics 
             h4 Best players - TO DO

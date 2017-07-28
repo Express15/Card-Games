@@ -1,8 +1,11 @@
 extends _shared/_master
 
 block content
-    h1 To do!!!
-    ul
-        each result in context
-            li
-                p result.name - result.score
+    div.statistics
+        h3 Best players for all time!!!
+        h4 Player - Total score
+        ul.players-list
+            each result in context
+                hr
+                li.player-list
+                    span #{result.username}  -  #{result.score}
