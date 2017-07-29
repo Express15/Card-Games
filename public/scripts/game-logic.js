@@ -156,31 +156,36 @@ $(document).ready(function () {
 
             var canMove = 0;
             var cardIndex;
+            //console.log("canMove before: " + canMove);
 
             for (var i = 0; i < hand; i++) {
                 cardIndex = i + 1;
-                if (!used[i]) {
+                if(canMove){
+                    break;
+                }
+                if (used[i] == 0) {
                     for (var j = 1; j <= 2; j++) {
                         if (Number($("#card" + cardIndex).text()) < Number($("#pile" + j).text()) || Number($("#card" + cardIndex).text()) == Number($("#pile" + j).text()) + 10) {
                             canMove = 1;
+                            //console.log(Number($("#card" + cardIndex).text()) + ' < ' + Number($("#pile" + j).text()));
                             break;
                         }
                     }
                     for (var j = 3; j <= 4; j++) {
-                        if (Number($("#card" + cardIndex).text()) < Number($("#pile" + j).text()) || Number($("#card" + cardIndex).text()) == Number($("#pile" + j).text()) + 10) {
+                        if (Number($("#card" + cardIndex).text()) > Number($("#pile" + j).text()) || Number($("#card" + cardIndex).text()) == Number($("#pile" + j).text()) - 10) {
                             canMove = 1;
+                            //console.log(Number($("#card" + cardIndex).text()) + ' > ' + Number($("#pile" + j).text()));
                             break;
                         }
                     }
                 }
             }
 
-            if (canMove && count < 2) {
-                return;
-            }
+            //console.log("canMove after: " + canMove);
+            //console.log("Count: " + count);
 
             //Game Over
-            if (!canMove && count < 2) {
+            if (canMove == 0 && count < 2) {
                 var numberOfCards = index + 1;
                 numberOfCards += 8 - count;
                 var score = 0;
@@ -192,6 +197,10 @@ $(document).ready(function () {
                 else {
                     alert("Sorry, you lost the game...");
                 }
+                return;
+            }
+
+            if (canMove && count < 2) {
                 return;
             }
 
