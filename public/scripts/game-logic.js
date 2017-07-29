@@ -38,6 +38,7 @@ $(document).ready(function () {
         var deck = new Array(98);
         var visited = new Array(98);
         var used = new Array(hand); // used cards during a turn
+        var checkDuplicates = [];
 
         //initialize the arrays
         for (var i = 0; i < hand; i++) {
@@ -112,6 +113,7 @@ $(document).ready(function () {
                     used[cardNumber - 1] = 1;
                     $(id).text(selectedCard);
                     $(lastSelected).hide();
+                    checkDuplicates.push(selectedCard);
                 }
             }
         }
@@ -133,6 +135,7 @@ $(document).ready(function () {
                     used[cardNumber - 1] = 1;
                     $(id).text(selectedCard);
                     $(lastSelected).hide();
+                    checkDuplicates.push(selectedCard);
                 }
             }
         }
@@ -148,15 +151,22 @@ $(document).ready(function () {
         $("#end-turn").click(function () {
             var count = 0;
 
+            for(var i=0;i<checkDuplicates.length;i++){
+                for(var j=i+1;j<checkDuplicates.length;j++){
+                    if(checkDuplicates[i]==checkDuplicates[j]){
+                        console.log('duplicates');
+                    }
+                }
+            }
+
             for (var i = 0; i < hand; i++) {
-                if (used[i]) {
+                if (used[i] == 1) {
                     count++;
                 }
             }
 
             var canMove = 0;
             var cardIndex;
-            //console.log("canMove before: " + canMove);
 
             for (var i = 0; i < hand; i++) {
                 cardIndex = i + 1;
@@ -167,27 +177,28 @@ $(document).ready(function () {
                     for (var j = 1; j <= 2; j++) {
                         if (Number($("#card" + cardIndex).text()) < Number($("#pile" + j).text()) || Number($("#card" + cardIndex).text()) == Number($("#pile" + j).text()) + 10) {
                             canMove = 1;
-                            //console.log(Number($("#card" + cardIndex).text()) + ' < ' + Number($("#pile" + j).text()));
                             break;
                         }
                     }
                     for (var j = 3; j <= 4; j++) {
                         if (Number($("#card" + cardIndex).text()) > Number($("#pile" + j).text()) || Number($("#card" + cardIndex).text()) == Number($("#pile" + j).text()) - 10) {
                             canMove = 1;
-                            //console.log(Number($("#card" + cardIndex).text()) + ' > ' + Number($("#pile" + j).text()));
                             break;
                         }
                     }
                 }
             }
 
-            //console.log("canMove after: " + canMove);
-            //console.log("Count: " + count);
-
             //Game Over
-            if (canMove == 0 && count < 2) {
+            if (canMove == 0 && count < 1) {
                 var numberOfCards = index + 1;
-                numberOfCards += 8 - count;
+
+                for(var i=1;i<=hand;i++){
+                    if(used[i-1]==0){
+                        numberOfCards++;
+                    }
+                }
+
                 var score = 0;
                 if (numberOfCards < 10) {
                     score = 10 - numberOfCards;
@@ -204,29 +215,45 @@ $(document).ready(function () {
                 return;
             }
 
-            for (var i = 1; i <= hand; i++) {
-                $("#card" + i).show();
-
-                if (used[i - 1]) {
-                    if (index == -1) {
-                        $("#card" + i).hide();
+            //Pick new cards
+            if(index + 1 - count < 0){
+                for (var i = 1; i <= hand; i++) {
+                    if(used[i - 1] == 0){
+                        $("#card" + i).show();
                     }
-                    else {
+                    else{
+                        if (index == -1) {
+                            $("#card" + i).hide();
+                            used[i-1]=2;
+                        }
+                        else {
+                            $("#card" + i).text(deck[index]);
+                            $("#card" + i).show();
+                            used[i - 1] = 0;
+                            index--;
+                        }
+                    }
+                }
+            }
+            else{
+                for (var i = 1; i <= hand; i++) {
+                    $("#card" + i).show();
+                    if(used[i - 1] == 1){
                         $("#card" + i).text(deck[index]);
+                        used[i - 1] = 0;
                         index--;
                     }
                 }
-                used[i - 1] = 0;
-            }
 
-            for (var i = 1; i <= hand; i++) {
-                sortedHand[i - 1] = Number($("#card" + i).text());
-            }
+                for (var i = 1; i <= hand; i++) {
+                    sortedHand[i - 1] = Number($("#card" + i).text());
+                }
 
-            sortedHand.sort(function (a, b) { return a - b });
+                sortedHand.sort(function (a, b) { return a - b });
 
-            for (var i = 1; i <= hand; i++) {
-                $("#card" + i).text(sortedHand[i - 1]);
+                for (var i = 1; i <= hand; i++) {
+                    $("#card" + i).text(sortedHand[i - 1]);
+                }
             }
 
             $("#leftCards").text(index + 1);
