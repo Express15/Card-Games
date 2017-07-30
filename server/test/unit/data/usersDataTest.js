@@ -15,7 +15,7 @@ describe('UsersData.findByUsername', () => {
         return Promise.resolve(items.find((u) => u.username === username ));
     };
 
-    describe('When we give first found User`s name as a searchName', () => {
+    describe('When we give first found User name as a searchName', () => {
         beforeEach(() => {
             items = [{
                 name: 'Sasho',
@@ -39,12 +39,35 @@ describe('UsersData.findByUsername', () => {
             data = new UsersData(db);
         });
 
+        afterEach(() => {
+            db.collection.restore();
+        });
+        
         it('Expect to return the same user', () => {
             const searchedUserName = items[0].username;
 
             data.findByUsername(searchedUserName)
                 .then((foundUser) => {
                     expect(foundUser.name).to.equal(items[0].name);
+                });
+        });
+
+        it('Expect to throw if we compare the result with second found user`s name', () => {
+            const searchedUserName = items[0].username;
+
+            data.findByUsername(searchedUserName)
+                .then((foundUser) => {
+                    expect(foundUser.name).not.to.equal(items[1].name);
+                });
+        });
+
+
+        it('Zashto tova se schita za veren test (ima zeleno tick-che)', () => {
+            const searchedUserName = items[0].username;
+
+            data.findByUsername(searchedUserName)
+                .then((foundUser) => {
+                    expect(foundUser.name).to.equal(items[1].name);
                 });
         });
     });
