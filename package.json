@@ -8,8 +8,8 @@
     "dev": "nodemon ./server/index.js",
     "test": "npm run lint && npm run unit_tests && npm run integration_tests && npm run browser_tests",
     "lint": "./node_modules/.bin/eslint .",
-    "unit_tests": "./node_modules/.bin/mocha test/unit/**/*.js",
-    "integration_tests": "./node_modules/.bin/mocha test/integration",
+    "unit_tests": "./node_modules/.bin/mocha server/test/unit/**/*.js",
+    "integration_tests": "./node_modules/.bin/mocha server/test/integration",
     "browser_tests": "./node_modules/.bin/mocha -R dot ./test/browser/ --timeout 10000"
   },
   "author": "express15",
