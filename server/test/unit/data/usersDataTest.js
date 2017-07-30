@@ -12,27 +12,60 @@ describe('UsersData', () => {
     const db = {
         collection: () => { },
     };
-    const items = [{
-        name: 'Sasho',
-        username: 'SashoUsername',
-        email: 'SashoUsername@gmail.com',
-        password: 'sashoPass',
-        score: 0,
-    }, {
-        name: 'Gosho',
-        username: 'GoshoUsername',
-        email: 'GoshoUsername@gmail.com',
-        password: 'GoshoPass',
-        score: 0,
-    }];
+    let items = null;
+
+    beforeEach(() => {
+        items = [{
+            name: 'Sasho',
+            username: 'SashoUsername',
+            email: 'SashoUsername@gmail.com',
+            password: 'sashoPass',
+            score: 0,
+            _id: '597e081bfd12691f0874a9d8',
+        }, {
+            name: 'Gosho',
+            username: 'GoshoUsername',
+            email: 'GoshoUsername@gmail.com',
+            password: 'GoshoPass',
+            score: 0,
+            _id: '999e081bfd12691f0874a9d8',
+        }];
+    });
+
+    afterEach(() => {
+        items = [{
+            name: 'Sasho',
+            username: 'SashoUsername',
+            email: 'SashoUsername@gmail.com',
+            password: 'sashoPass',
+            score: 0,
+        }, {
+            name: 'Gosho',
+            username: 'GoshoUsername',
+            email: 'GoshoUsername@gmail.com',
+            password: 'GoshoPass',
+            score: 0,
+        }];
+    });
+
     let data = null;
 
-    const findOne = ({ username }) => {
+    let findOne = ({ username }) => {
         return Promise.resolve(items.find((u) => u.username === username));
     };
-    const find = (...args) => {
-        console.log('+++++ ' + JSON.stringify(args));
-        // return Promise.resolve(items.find((u) => u.username === username));
+
+    const toArray = () => {
+        return Promise.resolve(items)
+            .then((scores) => {
+                     // eslint-disable-next-line
+                    return scores.sort((a, b) => b.score - a.score).slice(0, 10);
+                });
+    };
+
+    const find = () => {
+        return {
+            toArray,
+        };
     };
 
     const update = ({ username }, { $inc }) => {
@@ -173,6 +206,74 @@ describe('UsersData', () => {
 
     describe('.getResults', () => {
         beforeEach(() => {
+            items = [{
+                name: 'Sasho_1',
+                username: 'SashoUsername',
+                email: 'SashoUsername@gmail.com',
+                password: 'sashoPass',
+                score: 1,
+            }, {
+                name: 'Sasho_2',
+                username: 'SashoUsername',
+                email: 'SashoUsername@gmail.com',
+                password: 'sashoPass',
+                score: 999,
+            }, {
+                name: 'Sasho_3',
+                username: 'SashoUsername',
+                email: 'SashoUsername@gmail.com',
+                password: 'sashoPass',
+                score: 55,
+            }, {
+                name: 'Sasho_4',
+                username: 'SashoUsername',
+                email: 'SashoUsername@gmail.com',
+                password: 'sashoPass',
+                score: 0,
+            }, {
+                name: 'Sasho_5',
+                username: 'SashoUsername',
+                email: 'SashoUsername@gmail.com',
+                password: 'sashoPass',
+                score: 1,
+            }, {
+                name: 'Sasho_6',
+                username: 'SashoUsername',
+                email: 'SashoUsername@gmail.com',
+                password: 'sashoPass',
+                score: 6,
+            }, {
+                name: 'Sasho_7',
+                username: 'SashoUsername',
+                email: 'SashoUsername@gmail.com',
+                password: 'sashoPass',
+                score: 77,
+            }, {
+                name: 'Sasho_8',
+                username: 'SashoUsername',
+                email: 'SashoUsername@gmail.com',
+                password: 'sashoPass',
+                score: 18,
+            }, {
+                name: 'Sasho_9',
+                username: 'SashoUsername',
+                email: 'SashoUsername@gmail.com',
+                password: 'sashoPass',
+                score: 1,
+            }, {
+                name: 'Sasho_999',
+                username: 'SashoUsername',
+                email: 'SashoUsername@gmail.com',
+                password: 'sashoPass',
+                score: -111,
+            }, {
+                name: 'Sasho_11',
+                username: 'SashoUsername',
+                email: 'SashoUsername@gmail.com',
+                password: 'sashoPass',
+                score: 1,
+            }];
+
             sinon.stub(db, 'collection')
                 .callsFake(() => {
                     return { find };
@@ -185,8 +286,120 @@ describe('UsersData', () => {
             db.collection.restore();
         });
 
-        it('Expect to update user score', () => {
-            return data.getResults();
+        it('to return l0 elements when users are 11', () => {
+            return data.getResults()
+                .then((sortedAndFoundUsers) => {
+                    expect(sortedAndFoundUsers.length).to.equal(10);
+                });
+        });
+
+        it('to not return user with smallest score', () => {
+            const unwantedUserName = 'Sasho_999';
+            return data.getResults()
+                .then((sortedAndFoundUsers) => {
+                    sortedAndFoundUsers.forEach((u) => {
+                            expect(u.name).not.to.be.equal(unwantedUserName);
+                        });
+                });
+        });
+
+        it('to return user with biggest score', () => {
+            const unwantedUserName = 'Sasho_2';
+            return data.getResults()
+                .then((sortedAndFoundUsers) => {
+                    let foundPlayerWithBiggestScore = false;
+
+                    sortedAndFoundUsers.forEach((u) => {
+                        if (u.name === unwantedUserName) {
+                            foundPlayerWithBiggestScore = true;
+                        }
+                    });
+
+                    // eslint-disable-next-line
+                    expect(foundPlayerWithBiggestScore).to.be.true;
+                });
+        });
+    });
+
+    describe('.createUser', () => {
+        const user = {};
+
+        beforeEach(() => {
+            sinon.stub(db, 'collection')
+                .callsFake(() => {
+                    return { findOne };
+                });
+        });
+
+        afterEach(() => {
+            db.collection.restore();
+        });
+
+        it('should throw error if user already exists', (done) => {
+            data = new UsersData(db);
+            user.body = items[0];
+            const promise = data.createUser(user.body);
+
+            promise
+                .then(() => {
+                }, (err) => {
+                    const msg = err.toString();
+                    expect((msg)).to.contain('User already exists');
+                })
+            .then(done, done);
+        });
+
+        //  it.skip('should create new user', (done) => {
+        //     const insert = (...args) => {
+        //         return Promise.resolve();
+        //     };
+
+        //     sinon.stub(db, 'collection')
+        //         .callsFake(() => {
+        //             return { insert };
+        //         });
+
+
+        //      user.body = {
+        //          'name': 'fofofofoo',
+        //          'username': 'fofofofooUsername',
+        //          'email': 'fofofofoo2@gmail.com',
+        //          'password': 'a24826233',
+        //          'confirm': 'a24826233',
+        //     };
+        //     const promise = data.createUser(user.body);
+
+        //     expect(false).to.be.true;
+        // });
+    });
+
+    describe('.findById', () => {
+        beforeEach(() => {
+            sinon.stub(db, 'collection')
+                .callsFake(() => {
+                    return { findOne };
+                });
+
+            findOne = ({ _id }) => {
+                return Promise.resolve(items.find((u) => {
+                    return u._id+'' === _id+'';
+                }));
+            };
+
+            data = new UsersData(db);
+        });
+
+        afterEach(() => {
+            db.collection.restore();
+        });
+
+        it('Expect to return the same user', () => {
+            const searchedId = items[0]._id;
+
+            return data.findById(searchedId)
+                .then((foundUser) => {
+                    expect(foundUser.name).to.equal(items[0].name);
+                });
         });
     });
 });

@@ -15,17 +15,20 @@ const applyTo = (app, data) => {
             });
     });
 
-    const signupStrategy = new Strategy({   // 'login-signup' is optional here   
-    usernameField : 'username',
-    passwordField : 'password',        
-    passReqToCallback : true },(req, username, password, done) => {       
-        data.users.createUser(req.body)
-            .then((user) => {
-                done(null, user);
-            })
-            .catch((err) => {
-                done(err);
-            });
+    const signupStrategy = new Strategy({// 'login-signup' is optional here   
+        usernameField: 'username',
+        passwordField: 'password',
+        passReqToCallback: true },
+        (req, username, password, done) => {
+            console.log('############# req= ' + JSON.stringify(req.body)); 
+            console.log('############# req= end');
+            data.users.createUser(req.body)
+                .then((user) => {
+                    done(null, user);
+                })
+                .catch((err) => {
+                    done(err);
+                });
     });
 
     passport.use('local-signin', signinStrategy);
