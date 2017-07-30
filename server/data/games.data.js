@@ -12,8 +12,8 @@ class GamesData { // to fix
 
         return this.games.find({
             startTime: {
-                $gte: startTime
-            }
+                $gte: startTime,
+            },
         }).toArray();
     }
 
@@ -28,12 +28,12 @@ class GamesData { // to fix
                     gameId: 1, name: 1, deck: 1, rules: 1, maxPlayersCount: 1,
                     instances: {
                         $filter: {
-                            input: "$instances",
-                            as: "instances",
-                            cond: { $gte: ["$$instances.startTime", startTime] }
-                        }
-                    }
-                }
+                            input: '$instances',
+                            as: 'instances',
+                            cond: { $gte: ['$$instances.startTime', startTime] }
+                        },
+                    },
+                },
             }, function (err, result) {
                 callback(err, result[0]);
             }));

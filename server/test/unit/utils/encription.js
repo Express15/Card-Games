@@ -5,9 +5,7 @@ const expect = chai.expect;
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 const sinon = require('sinon');
-
 const encriptor = require('../../../utils/encryption');
-
 
 describe('Encription', () => {
     it('expect to return encripted pass', () => {

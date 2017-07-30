@@ -20,8 +20,6 @@ const applyTo = (app, data) => {
         passwordField: 'password',
         passReqToCallback: true },
         (req, username, password, done) => {
-            console.log('############# req= ' + JSON.stringify(req.body)); 
-            console.log('############# req= end');
             data.users.createUser(req.body)
                 .then((user) => {
                     done(null, user);
@@ -43,6 +41,7 @@ const applyTo = (app, data) => {
     app.use(passport.session());
 
     passport.serializeUser((user, done) => {
+         // eslint-disable-next-line
         console.log(user);
         done(null, user._id);
     });

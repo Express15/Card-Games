@@ -4,7 +4,8 @@ const sinon = require('sinon');
 const myDB = require('../../../db/');
 
 describe('Database', () => {
-    it('to connect (dont forget to start mongod) ', (done) => {
+    // eslint-disable-next-line
+    it('should have "collection" as a function after connecting (dont forget to start mongod) ', (done) => {
         myDB.init('mongodb://localhost/game').then((database) => {
             const result = typeof(database.collection) + '';
             expect(result).to.be.equal('function');

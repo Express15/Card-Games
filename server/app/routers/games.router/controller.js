@@ -13,19 +13,17 @@ class GameController {
     }
 
     getGame(req, res) {
-        const { gameId } = req.params
+        const { gameId } = req.params;
         return this.data.games.getGame(gameId, function (err, result) {
             if (err) {
                 // return error 
-            } 
-            else {
+            } else {
                 // somewhere to use getGameResults
                 return res.render('games/info', {
-                    context: result
+                    context: result,
                 });
             }
         });
-
     }
 
     createGameInstance(req, res) {
@@ -35,15 +33,14 @@ class GameController {
 
             return this.data.games.startNewGame(gameId, user)
                 .then((game) => {
-                    const gameId = game.game.gameId;
-                    const instanceId = game._id
-
-                    return res.redirect('/games/' + gameId + '/play/' + instanceId);
+                    const innerGameId = game.game.gameId;
+                    const instanceId = game._id;
+                    // eslint-disable-next-line
+                    return res.redirect('/games/' + innerGameId + '/play/' + instanceId);
                 });
         }
-        else {
-            return res.redirect('/auth/sign-in');
-        }
+
+        return res.redirect('/auth/sign-in');
     }
 
     joinGameInstance(req, res) {
@@ -62,9 +59,7 @@ class GameController {
                     });
                 });
         }
-        else {
-            return res.redirect('/auth/sign-in');
-        }
+        return res.redirect('/auth/sign-in');
     }
 
     saveGameResults(req, res) {

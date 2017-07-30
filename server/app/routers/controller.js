@@ -3,17 +3,16 @@ class MainController {
         this.data = data;
     }
 
-    
+
     getAllActiveGames(req, res) {
         return this.data.games.getAllGames()
             .then((games) => {
-
                 return res.render('home', {
                     context: games,
                 });
             });
     }
-    
+
     getTotalResults(req, res) {
         return this.data.users.getResults()
             .then((results) => {
@@ -21,7 +20,7 @@ class MainController {
                     context: results,
                 });
             });
-    } 
+    }
 }
 
 

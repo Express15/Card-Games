@@ -1,5 +1,4 @@
 /* globals __dirname */
-
 const path = require('path');
 
 const bodyParser = require('body-parser');
@@ -7,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const express = require('express');
 
 const applyTo = (app) => {
-    app.set("views","./server/views");
+    app.set('views', './server/views');
     app.set('view engine', 'pug');
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,7 +17,7 @@ const applyTo = (app) => {
     const staticsPath = path.join(__dirname, '../../../public');
     app.use('/public', express.static(staticsPath));
 
-    app.use(cookieParser('keyboard cat')); //?
+    app.use(cookieParser('keyboard cat')); // ?
 };
 
 module.exports = { applyTo };
