@@ -1,7 +1,8 @@
-
+/* eslint-disable */
 const USERNAME_MIN_LENGTH = 3;
 const USERNAME_MAX_LENGTH = 30;
 
+// eslint-disable-next-line
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
@@ -15,6 +16,7 @@ const EMAIL_REQUIRED = 'Password is required';
 const EMAIL_DOES_NOT_MATCH = 'Email doesnt match the tamplate *****@***.***';
 const PASSWORD_DOES_NOT_MATCH = 'Password must contain....';
 
+// eslint-disable-next-line
 $.validator.addMethod(
     "regex",
     function (value, element, regexp) {
@@ -31,8 +33,8 @@ $().ready(function () {
             },
             username: {
                 required: true,
-                minlength: USERNAME_MIN_LENGTH, 
-                maxlength:USERNAME_MAX_LENGTH,
+                minlength: USERNAME_MIN_LENGTH,
+                maxlength: USERNAME_MAX_LENGTH,
             },
             email: {
                 required: true,
@@ -43,7 +45,7 @@ $().ready(function () {
                 regex: PASSWORD_REGEX,
             },
             confirm: {
-                equalTo: '#password'
+                equalTo: '#password',
             },
         },
         messages: {
@@ -64,8 +66,8 @@ $().ready(function () {
                 regex: PASSWORD_DOES_NOT_MATCH,
             },
             confirm: {
-                equalTo: CONFIRM_PASSWORD_MUST_BE_EQUAL
+                equalTo: CONFIRM_PASSWORD_MUST_BE_EQUAL,
             },
-        }
-    })
+        },
+    });
 });

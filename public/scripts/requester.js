@@ -1,5 +1,4 @@
 class Requester {
-
     send(method, url, options) {
         options = options || {};
 
@@ -18,9 +17,8 @@ class Requester {
                 },
                 error: function (err) {
                     reject(err);
-                }
+                },
             });
-
         });
         return promise;
     }

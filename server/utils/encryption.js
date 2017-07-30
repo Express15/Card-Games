@@ -1,5 +1,5 @@
-module.exports = {   
-    generateHashedPassword: function (password) {       
+module.exports = {
+    generateHashedPassword: (password) => {
         return password;
-    }
+    },
 };
