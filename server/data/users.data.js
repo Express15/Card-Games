@@ -37,12 +37,12 @@ class UsersData {
                 }
 
                 return new Promise((resolve) => {
-                    let newUser = {
+                    const newUser = {
                         name: bodyUser.name,
                         username: bodyUser.username,
                         email: bodyUser.email,
-                        password: bodyUser.password, //hash password
-                        score: 0
+                        password: bodyUser.password, // hash password
+                        score: 0,
                     };
 
                     resolve(newUser);
@@ -59,20 +59,19 @@ class UsersData {
     saveResults(username, score) { // for multi players - array of objects
         return this.users.update({ username: username }, {
             $inc: {
-                score: score
-            }
+                score: score,
+            },
         })
-            .then((result) => {                
+            .then((result) => {
                 return Promise.resolve(result);
             });
     }
 
     getResults() {
-        return this.users.find({}, { username:1, score:1 }).toArray()
+        return this.users.find({}, { username: 1, score: 1 }).toArray()
             .then((scores) => {
                 return scores.sort((a, b) => b.score - a.score).slice(0, 10);
-            })
-
+            });
     }
 }
 

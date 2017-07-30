@@ -30,6 +30,18 @@ describe('UsersData', () => {
     const findOne = ({ username }) => {
         return Promise.resolve(items.find((u) => u.username === username));
     };
+    const find = (...args) => {
+        console.log('+++++ ' + JSON.stringify(args));
+        // return Promise.resolve(items.find((u) => u.username === username));
+    };
+
+    const update = ({ username }, { $inc }) => {
+        return Promise
+            .resolve(items.find((u) => u.username === username))
+            .then((user) => {
+                user.score = $inc.score;
+            });
+    };
 
     describe('.findByUsername', () => {
         describe('When we give first found User name as a searchName', () => {
@@ -134,11 +146,11 @@ describe('UsersData', () => {
         });
     });
 
-    describe('.findById', () => {
+    describe('.saveResults', () => {
         beforeEach(() => {
             sinon.stub(db, 'collection')
                 .callsFake(() => {
-                    return { findOne };
+                    return { update };
                 });
 
             data = new UsersData(db);
@@ -146,6 +158,35 @@ describe('UsersData', () => {
 
         afterEach(() => {
             db.collection.restore();
+        });
+
+        it('Expect to update user score', () => {
+                const expectedUsername = items[0].username;
+                const expectedNewScore = 55;
+
+                return data.saveResults(expectedUsername, expectedNewScore)
+                    .then(() => {
+                        expect(items[0].score).to.equal(expectedNewScore);
+                    });
+            });
+    });
+
+    describe('.getResults', () => {
+        beforeEach(() => {
+            sinon.stub(db, 'collection')
+                .callsFake(() => {
+                    return { find };
+                });
+
+            data = new UsersData(db);
+        });
+
+        afterEach(() => {
+            db.collection.restore();
+        });
+
+        it('Expect to update user score', () => {
+            return data.getResults();
         });
     });
 });

@@ -5,7 +5,6 @@ const mocha = require('gulp-mocha');
 gulp.task('pre-test', () => {
     return gulp.src([
         './server/app/**/*.js',
-        './server/config/**/*.js',
         './server/data/**/*.js',
         './server/db/**/*.js',
         './server/models/**/*.js',
