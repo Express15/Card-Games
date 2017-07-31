@@ -3,10 +3,13 @@ block scripts
     script(src="/public/scripts/requester.js")
     script(src="/public/scripts/data.js")
     script(src="/public/scripts/game-logic.js")
+    link(rel='stylesheet', type='text/css', href='/public/css/loader.css')
 block content
-    div.game-field
+    div#loader
+    div#myDiv.game-field(style='display:none;')
         p
             |#{context.players.length} players
+        button#new-game.btn.btn-primary New Game
         div.panel.panel-default
             div.panel-body
                 p Numbers go down &#8595
@@ -29,7 +32,6 @@ block content
             span Cards left:
             span#leftCards 90
         button#end-turn.btn.btn-default End Turn
-        button#new-game.btn.btn-primary New Game
         div#myModal.modal.fade(role='dialog')
             div.modal-dialog
                 div.modal-content
