@@ -30,3 +30,13 @@ block content
             span#leftCards 90
         button#end-turn.btn.btn-default End Turn
         button#new-game.btn.btn-primary New Game
+        div#myModal.modal.fade(role='dialog')
+            div.modal-dialog
+                div.modal-content
+                    div.modal-header
+                        button.close(type='button', data-dismiss='modal') ×
+                        h4.modal-title Cannot end turn
+                    div.modal-body
+                        p You have to use at least two cards to end your turn.
+                div.modal-footer
+                    button.btn.btn-default(type='button', data-dismiss='modal') Close

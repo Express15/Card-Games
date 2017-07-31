@@ -149,6 +149,8 @@ $(document).ready(function () {
         });
 
         $("#end-turn").click(function () {
+            $("#end-turn").attr('data-toggle', '');
+            $("#end-turn").attr('data-target', '');
             var count = 0;
 
             for(var i=0;i<checkDuplicates.length;i++){
@@ -212,6 +214,8 @@ $(document).ready(function () {
             }
 
             if (canMove && count < 2) {
+                $("#end-turn").attr('data-toggle', 'modal');
+                $("#end-turn").attr('data-target', '#myModal');
                 return;
             }
 
