@@ -6,7 +6,7 @@ block scripts
     link(rel='stylesheet', type='text/css', href='/public/css/loader.css')
 block content
     div#loader
-    div#myDiv.game-field(style='display:none;')
+    div#field.game-field(style='display:none;')
         p
             |#{context.players.length} players
         button#new-game.btn.btn-primary New Game
@@ -32,7 +32,7 @@ block content
             span Cards left:
             span#leftCards 90
         button#end-turn.btn.btn-default End Turn
-        div#myModal.modal.fade(role='dialog')
+        div#endTurn-modal.modal.fade(role='dialog')
             div.modal-dialog
                 div.modal-content
                     div.modal-header
@@ -42,3 +42,14 @@ block content
                         p You have to use at least two cards to end your turn.
                 div.modal-footer
                     button.btn.btn-default(type='button', data-dismiss='modal') Close
+        div#newGame-modal.modal.fade(role='dialog')
+            div.modal-dialog
+                div.modal-content
+                    div.modal-header
+                        button.close(type='button', data-dismiss='modal') ×
+                        h4.modal-title Are you sure you want to start a new game?
+                    div.modal-body
+                        p Your current game will not be saved.
+                div.modal-footer
+                    button#yes.btn.btn-default(type='button', data-dismiss='modal') Yes
+                    button#no.btn.btn-default(type='button', data-dismiss='modal') No

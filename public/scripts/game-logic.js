@@ -1,18 +1,19 @@
 /* globals data */
 $(document).ready(function () {
-    var myVar;
-    myFunction();
+    var time;
+    myTimeout();
 
-    function myFunction() {
-        myVar = setTimeout(showPage, 3000);
+    function myTimeout() {
+        time = setTimeout(showPage, 3000);
     }
 
     function showPage() {
       document.getElementById("loader").style.display = "none";
-      document.getElementById("myDiv").style.display = "block";
+      document.getElementById("field").style.display = "block";
     }
 
     function newGame(numberOfPlayers) {
+
         var hand;
 
         //Find how many cards in a hand there are.
@@ -226,7 +227,7 @@ $(document).ready(function () {
 
             if (canMove && count < 2) {
                 $("#end-turn").attr('data-toggle', 'modal');
-                $("#end-turn").attr('data-target', '#myModal');
+                $("#end-turn").attr('data-target', '#endTurn-modal');
                 return;
             }
 
@@ -278,6 +279,13 @@ $(document).ready(function () {
 
     newGame(1);
     $("#new-game").click(function () {
-        newGame(1);
+        $("#new-game").attr('data-toggle', 'modal');
+        $("#new-game").attr('data-target', '#newGame-modal');
+        $("#yes").click(function(){
+            newGame(1);
+        });
+        $("#no").click(function(){
+            return;
+        })
     });
 });
