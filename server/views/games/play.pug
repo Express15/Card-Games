@@ -9,7 +9,7 @@ block content
     div#field.game-field(style='display:none;')
         p
             |#{context.players.length} players
-        button#new-game.btn.btn-primary New Game
+        button#new-game.btn.btn-primary(type='button', data-toggle='modal', data-target='#newGame-modal') New Game
         div.panel.panel-default
             div.panel-body
                 p Numbers go down &#8595
